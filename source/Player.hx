@@ -2,6 +2,7 @@ package;
 
 import flixel.FlxG;
 import flixel.FlxObject;
+import flixel.addons.effects.FlxTrail;
 import flixel.addons.util.FlxFSM;
 import flixel.FlxSprite;
 import flixel.system.FlxAssets.FlxGraphicAsset;
@@ -16,6 +17,7 @@ class Player extends FlxSprite
 	private static inline var GRAVITY:Float = 1400;
 	private static inline var VEL:Int = 300;
 	private var fsm:FlxFSM<Player>;
+	private var trail:FlxTrail;
 	
 	public function new(?X:Float=0, ?Y:Float=0) 
 	{
@@ -30,11 +32,14 @@ class Player extends FlxSprite
 		fsm = new FlxFSM<Player>(this);
 		fsm.transitions
 			.add(Idle, Jump, Conditions.jump)
+			.add(Idle, Fall, Conditions.falling)
 			.add(Jump, Idle, Conditions.grounded)
 			.add(Jump, Fall, Conditions.falling)
 			.add(Fall, Idle, Conditions.grounded)
 			.start(Idle);
 		
+		trail = new FlxTrail(this, null, 5, 4, 0.4, 0.05);
+		FlxG.state.add(trail);
 		
 	}
 	
