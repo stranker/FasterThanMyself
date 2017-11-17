@@ -13,40 +13,55 @@ import flixel.ui.FlxBar;
 
 class PlayState extends FlxState
 {
-	var p:Player;
-	var tilemap:FlxTilemap;
-	var clock:Clock;
+	private var tilemap:FlxTilemap;
 	private var loader:FlxOgmoLoader;
 	private var timeBar:FlxBar;
 	override public function create():Void
 	{
-		super.create();
-		p = new Player(FlxG.camera.width / 2, FlxG.camera.height / 2);
-		
+		Global.countdown = 60;
+		super.create();		
 		tilemap = new FlxTilemap();
 		loader = new FlxOgmoLoader(AssetPaths.test__oel);
 		tilemap = loader.loadTilemap(AssetPaths.tiles__png, 32, 32, "Tiles");
 		tilemap.setTileProperties(0, FlxObject.NONE);
 		tilemap.setTileProperties(1, FlxObject.ANY);
-		
-		Global.countdown = 60;
+		loader.loadEntities(placeEntities, "Entities");
+		Global.tilemap = tilemap;
 		
 		timeBar = new FlxBar(100, FlxG.camera.height - 20,FlxBarFillDirection.RIGHT_TO_LEFT, 760, 10, Global, "countdown", 0, 60);
 		timeBar.numDivisions = 1000;
 		timeBar.scrollFactor.set(0, 0);
-		
 		add(tilemap);
-		add(p);
 		add(timeBar);
-		//clock = new Clock(FlxG.camera.width / 2, FlxG.camera.height / 2);
-		//add(clock);
-		FlxG.camera.follow(p, FlxCameraFollowStyle.PLATFORMER, 3);
+		FlxG.camera.follow(Global.player, FlxCameraFollowStyle.PLATFORMER, 3);
 	}
 
 	override public function update(elapsed:Float):Void
 	{
-		FlxG.collide(p, tilemap);
+		FlxG.collide(Global.player, tilemap);
 		super.update(elapsed);
-		Global.countdown -= elapsed;
+		if(Global.countdown>0)
+			Global.countdown -= elapsed;
+		else
+			Global.countdown = 0;
+	}
+	
+	private function placeEntities(entityName:String, entityData:Xml):Void // inicializar entidades
+	{
+		var x:Int = Std.parseInt(entityData.get("x"));
+		var y:Int = Std.parseInt(entityData.get("y"));
+		switch (entityName)
+		{
+			case "Player":
+				var p:Player = new Player(x, y);
+				Global.player = p;
+				add(p);
+			case "Clock":
+				var c:Clock = new Clock(x, y);
+				add(c);
+			case "TimeWall":
+				var t:TimeWall = new TimeWall(x, y);
+				add(t);
+		}
 	}
 }

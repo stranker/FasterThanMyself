@@ -15,25 +15,23 @@ import flixel.util.FlxColor;
 class Player extends FlxSprite 
 {
 	private static inline var GRAVITY:Float = 1400;
-	private static inline var VEL:Int = 300;
 	private var fsm:FlxFSM<Player>;
 	private var trail:FlxTrail;
 	public var graceTime:Float = 0;
 	private var direction:Int;
-	//private var
 	
 	public function new(?X:Float=0, ?Y:Float=0) 
 	{
 		super(X, Y);
-		loadGraphic(AssetPaths.Player__png, true, 40, 64);
+		loadGraphic(AssetPaths.Player__png, true, 30, 48);
 		animation.add("idle", [0], 6, true);
-		animation.add("run", [0, 1, 2, 3], 6, true);
+		animation.add("run", [0, 1, 2, 3,4,5], 12, true);
 		acceleration.y = GRAVITY;
 		setFacingFlip(FlxObject.LEFT, true, false);
 		setFacingFlip(FlxObject.RIGHT, false, false);
 		facing = FlxObject.RIGHT;
 		direction = 1;
-		maxVelocity.set(VEL, GRAVITY);
+		maxVelocity.set(Global.countdown*5, GRAVITY);
 		
 		fsm = new FlxFSM<Player>(this);
 		fsm.transitions
@@ -62,7 +60,7 @@ class Player extends FlxSprite
 	{
 		if (FlxG.keys.pressed.LEFT || FlxG.keys.pressed.RIGHT)
 		{
-			velocity.x = FlxG.keys.pressed.LEFT ? -VEL : VEL;
+			velocity.x = FlxG.keys.pressed.LEFT ? -Global.countdown*5 : Global.countdown*5;
 			direction = (velocity.x >= 0) ? 1 : -1;
 			animation.play("run");
 		}

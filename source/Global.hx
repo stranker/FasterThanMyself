@@ -1,4 +1,5 @@
 package;
+import flixel.tile.FlxTilemap;
 
 /**
  * ...
@@ -8,4 +9,5 @@ class Global
 {
 	static public var player:Player;
 	static public var countdown:Float;
+	static public var tilemap:FlxTilemap;
 }

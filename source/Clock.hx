@@ -14,7 +14,7 @@ class Clock extends FlxSprite
 	public function new(?X:Float=0, ?Y:Float=0) 
 	{
 		super(X, Y);
-		makeGraphic(50, 50, 0xFFFF0000);
+		loadGraphic(AssetPaths.Clock__png, false, 26, 26);
 	}
 	
 	override public function update(elapsed:Float):Void 
@@ -26,6 +26,8 @@ class Clock extends FlxSprite
 	private function pickClock(p:Player,c:Clock):Void 
 	{
 		Global.countdown += 20;
+		if (Global.countdown > 60)
+			Global.countdown = 60;
 		destroy();
 	}
 	
