@@ -19,6 +19,7 @@ class Player extends FlxSprite
 	private var trail:FlxTrail;
 	public var graceTime:Float = 0;
 	private var direction:Int;
+	public var jumped = false;
 	
 	public function new(?X:Float=0, ?Y:Float=0) 
 	{
@@ -40,7 +41,7 @@ class Player extends FlxSprite
 			.add(Jump, Idle, Conditions.grounded)
 			.add(Jump, Fall, Conditions.falling)
 			.add(Fall, Idle, Conditions.grounded)
-			.add(Fall, Jump, Conditions.jump)
+			.add(Fall, Jump, Conditions.jumpGrace)
 			.start(Idle);
 		
 		trail = new FlxTrail(this, null, 5, 2, 0.4, 0.05);
@@ -78,7 +79,7 @@ class Conditions
 {
 	public static function jump(owner:Player):Bool
 	{
-		return (FlxG.keys.justPressed.UP && (owner.isTouching(FlxObject.FLOOR) || owner.graceTime<0.15));
+		return (FlxG.keys.justPressed.UP && owner.isTouching(FlxObject.FLOOR));
 	}
 	
 	public static function grounded(owner:Player):Bool
@@ -89,6 +90,11 @@ class Conditions
 	public static function falling(owner:Player):Bool
 	{
 		return (owner.velocity.y > 0 && !owner.isTouching(FlxObject.FLOOR));
+	}
+	
+	public static function jumpGrace(owner:Player):Bool
+	{
+		return (FlxG.keys.justPressed.UP && owner.graceTime < 0.15 && !owner.jumped);
 	}
 	
 	public static function animationFinished(owner:Player):Bool
@@ -102,7 +108,7 @@ class Idle extends FlxFSMState<Player>
 {
 	override public function enter(owner:Player, fsm:FlxFSM<Player>):Void
 	{
-		
+		owner.jumped = false;
 	}
 	override public function update(elapsed:Float, owner:Player, fsm:FlxFSM<Player>):Void 
 	{
@@ -116,6 +122,7 @@ class Jump extends FlxFSMState<Player>
 	override public function enter(owner:Player, fsm:FlxFSM<Player>):Void
 	{
 		owner.velocity.y = -500;
+		owner.jumped = true;
 	}
 	override public function update(elapsed:Float, owner:Player, fsm:FlxFSM<Player>):Void 
 	{

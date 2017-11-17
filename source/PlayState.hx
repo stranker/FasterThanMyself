@@ -15,7 +15,7 @@ class PlayState extends FlxState
 {
 	private var tilemap:FlxTilemap;
 	private var loader:FlxOgmoLoader;
-	private var timeBar:FlxBar;
+	private var timeBar:LevelBar;
 	override public function create():Void
 	{
 		Global.countdown = 60;
@@ -28,9 +28,8 @@ class PlayState extends FlxState
 		loader.loadEntities(placeEntities, "Entities");
 		Global.tilemap = tilemap;
 		
-		timeBar = new FlxBar(100, FlxG.camera.height - 20,FlxBarFillDirection.RIGHT_TO_LEFT, 760, 10, Global, "countdown", 0, 60);
-		timeBar.numDivisions = 1000;
-		timeBar.scrollFactor.set(0, 0);
+		timeBar = new LevelBar(100, FlxG.height - 50, tilemap);
+		
 		add(tilemap);
 		add(timeBar);
 		FlxG.camera.follow(Global.player, FlxCameraFollowStyle.PLATFORMER, 3);
