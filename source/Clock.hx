@@ -25,9 +25,7 @@ class Clock extends FlxSprite
 	
 	private function pickClock(p:Player,c:Clock):Void 
 	{
-		Global.countdown += 20;
-		if (Global.countdown > 60)
-			Global.countdown = 60;
+		Global.timeWallSpeed = 30;
 		destroy();
 	}
 	

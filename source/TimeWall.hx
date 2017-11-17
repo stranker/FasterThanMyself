@@ -13,7 +13,7 @@ import flixel.tile.FlxTilemap;
  */
 class TimeWall extends FlxSprite 
 {
-
+	private var timeVelocity:Float = 0;
 	public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) 
 	{
 		super(X, Y, SimpleGraphic);
@@ -21,13 +21,22 @@ class TimeWall extends FlxSprite
 		animation.add("idle", [0, 1, 2], 6);
 		velocity.x = 50;
 		pixelPerfectPosition = false;
-		animation.play("idle");		
+		animation.play("idle");
 	}
 	
 	override public function update(elapsed:Float):Void 
 	{
 		super.update(elapsed);
 		FlxG.overlap(this, Global.player, playerCollide);
+		Global.timeWallPos = x;
+		velocity.x = Global.timeWallSpeed;
+		if (velocity.x < 50)
+			timeVelocity += elapsed;
+		if (timeVelocity>3) 
+		{
+			Global.timeWallSpeed = 50;
+			timeVelocity = 0;
+		}
 	}
 	
 	private function playerCollide(t:TimeWall,p:Player):Void

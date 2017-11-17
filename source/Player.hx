@@ -54,6 +54,10 @@ class Player extends FlxSprite
 	{
 		fsm.update(elapsed);
 		super.update(elapsed);
+		if (Global.timeWallSpeed < 50)
+			trail.revive();
+		else
+			trail.kill();
 		//trace(Type.getClassName(fsm.stateClass)); ESTADO
 	}
 	

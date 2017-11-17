@@ -19,6 +19,8 @@ class PlayState extends FlxState
 	override public function create():Void
 	{
 		Global.countdown = 60;
+		Global.timeWallPos = 0;
+		Global.timeWallSpeed = 50;
 		super.create();		
 		tilemap = new FlxTilemap();
 		loader = new FlxOgmoLoader(AssetPaths.test__oel);
@@ -32,6 +34,8 @@ class PlayState extends FlxState
 		
 		add(tilemap);
 		add(timeBar);
+		add(timeBar.playerHead);
+		add(timeBar.timeWall);
 		FlxG.camera.follow(Global.player, FlxCameraFollowStyle.PLATFORMER, 3);
 	}
 
