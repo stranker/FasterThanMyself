@@ -5,7 +5,10 @@ import flixel.FlxObject;
 import flixel.addons.effects.FlxTrail;
 import flixel.addons.util.FlxFSM;
 import flixel.FlxSprite;
+import flixel.effects.FlxFlicker;
 import flixel.system.FlxAssets.FlxGraphicAsset;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 
 /**
@@ -19,6 +22,7 @@ class Player extends FlxSprite
 	private var trail:FlxTrail;
 	public var graceTime:Float = 0;
 	private var direction:Int;
+	private var canbeHurted:Bool = true;
 	public var jumped = false;
 	
 	public function new(?X:Float=0, ?Y:Float=0) 
@@ -47,7 +51,7 @@ class Player extends FlxSprite
 		trail = new FlxTrail(this, null, 5, 2, 0.4, 0.05);
 		trail.kill();
 		FlxG.state.add(trail);
-		
+		health = 3;
 	}
 	
 	override public function update(elapsed:Float):Void 
@@ -59,6 +63,7 @@ class Player extends FlxSprite
 		else
 			trail.kill();
 		//trace(Type.getClassName(fsm.stateClass)); ESTADO
+		trace(health);
 	}
 	
 	public function movement():Void
@@ -75,8 +80,29 @@ class Player extends FlxSprite
 			animation.play("idle");
 		}
 		facing = (direction == 1) ? FlxObject.RIGHT : FlxObject.LEFT;
-	}	
+	}
 	
+	public function getDamage():Void
+	{
+		if (health > 0)
+		{
+			if (canbeHurted)
+			{
+				health -= 1;
+				canbeHurted = false;
+				FlxFlicker.flicker(this, 3, 0.1, true, true, canGetDamage);
+			}
+		}
+		else
+		{
+			FlxG.resetState();
+		}
+	}
+	
+	private function canGetDamage(f:FlxFlicker):Void 
+	{
+		canbeHurted = true;
+	}
 }
 
 class Conditions

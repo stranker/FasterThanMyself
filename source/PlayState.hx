@@ -65,6 +65,9 @@ class PlayState extends FlxState
 			case "TimeWall":
 				var t:TimeWall = new TimeWall(x, y);
 				add(t);
+			case "TimeVortex":
+				var t:TimeVortex = new TimeVortex(x, y);
+				add(t);
 		}
 	}
 }
