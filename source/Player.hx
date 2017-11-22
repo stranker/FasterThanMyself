@@ -48,7 +48,7 @@ class Player extends FlxSprite
 			.add(Fall, Jump, Conditions.jumpGrace)
 			.start(Idle);
 		
-		trail = new FlxTrail(this, null, 5, 2, 0.4, 0.05);
+		trail = new FlxTrail(this, null, 5, 2,0.4,0.1);
 		trail.kill();
 		FlxG.state.add(trail);
 		health = 3;
@@ -57,13 +57,18 @@ class Player extends FlxSprite
 	override public function update(elapsed:Float):Void 
 	{
 		fsm.update(elapsed);
+		wallDamage();
 		super.update(elapsed);
+
+		//trace(Type.getClassName(fsm.stateClass)); ESTADO
+	}
+	
+	private function wallDamage():Void 
+	{
 		if (Global.timeWallSpeed < 50)
 			trail.revive();
 		else
 			trail.kill();
-		//trace(Type.getClassName(fsm.stateClass)); ESTADO
-		trace(health);
 	}
 	
 	public function movement():Void
