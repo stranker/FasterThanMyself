@@ -10,6 +10,5 @@ class Global
 	static public var player:Player;
 	static public var timeWallPos:Float;
 	static public var timeWallSpeed:Float;
-	static public var countdown:Float;
 	static public var tilemap:FlxTilemap;
 }

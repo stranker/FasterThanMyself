@@ -3,9 +3,12 @@ package;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.addons.effects.FlxTrail;
+import flixel.addons.util.FlxAsyncLoop;
 import flixel.addons.util.FlxFSM;
 import flixel.FlxSprite;
 import flixel.effects.FlxFlicker;
+import flixel.group.FlxGroup.FlxTypedGroup;
+import flixel.math.FlxPoint;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
@@ -22,21 +25,25 @@ class Player extends FlxSprite
 	private var trail:FlxTrail;
 	public var graceTime:Float = 0;
 	private var direction:Int;
-	private var canbeHurted:Bool = true;
-	public var jumped = false;
+	public var canbeHurted:Bool = true;
+	public var jumped:Bool = false;
+	private var timeBack:Float = 0;
+	private var listPos:Array<FlxPoint>;
 	
 	public function new(?X:Float=0, ?Y:Float=0) 
 	{
 		super(X, Y);
 		loadGraphic(AssetPaths.Player__png, true, 30, 48);
 		animation.add("idle", [0], 6, true);
-		animation.add("run", [0, 1, 2, 3,4,5], 12, true);
+		animation.add("run", [0, 1, 2, 3, 4, 5], 12, true);
+		animation.add("jump", [6, 7, 8, 9, 10], 12, false);
 		acceleration.y = GRAVITY;
 		setFacingFlip(FlxObject.LEFT, true, false);
 		setFacingFlip(FlxObject.RIGHT, false, false);
 		facing = FlxObject.RIGHT;
 		direction = 1;
-		maxVelocity.set(Global.countdown*5, GRAVITY);
+		maxVelocity.set(300, GRAVITY);
+		listPos = new Array<FlxPoint>();
 		
 		fsm = new FlxFSM<Player>(this);
 		fsm.transitions
@@ -58,9 +65,40 @@ class Player extends FlxSprite
 	{
 		fsm.update(elapsed);
 		wallDamage();
-		super.update(elapsed);
-
+		if (canbeHurted)
+		{
+			super.update(elapsed);
+			clampPositions();
+		}
+		else
+		{
+			timeBack += elapsed;
+			if (timeBack > 0.01)
+			{
+				getBackInTime();
+				timeBack = 0;
+			}
+		}
 		//trace(Type.getClassName(fsm.stateClass)); ESTADO
+	}
+	
+	function clampPositions() 
+	{
+		if (listPos.length > 100)
+			listPos.shift();
+	}
+	
+	private function getBackInTime():Void
+	{
+		if (listPos.length > 0)
+		{
+			var pos:FlxPoint = listPos.pop();
+			setPosition(pos.x, pos.y);
+		}
+		else
+		{
+			canGetDamage();
+		}
 	}
 	
 	private function wallDamage():Void 
@@ -73,16 +111,22 @@ class Player extends FlxSprite
 	
 	public function movement():Void
 	{
-		if (FlxG.keys.pressed.LEFT || FlxG.keys.pressed.RIGHT)
+		if ((FlxG.keys.pressed.LEFT || FlxG.keys.pressed.RIGHT) && canbeHurted)
 		{
-			velocity.x = FlxG.keys.pressed.LEFT ? -Global.countdown*5 : Global.countdown*5;
+			velocity.x = FlxG.keys.pressed.LEFT ? -300 :300;
 			direction = (velocity.x >= 0) ? 1 : -1;
 			animation.play("run");
+			listPos.push(getPosition());
 		}
 		else
 		{
 			velocity.x = 0;
-			animation.play("idle");
+			if (velocity.y != 0)
+				animation.play("jump");
+			else
+			{
+				animation.play("idle");
+			}
 		}
 		facing = (direction == 1) ? FlxObject.RIGHT : FlxObject.LEFT;
 	}
@@ -95,7 +139,7 @@ class Player extends FlxSprite
 			{
 				health -= 1;
 				canbeHurted = false;
-				FlxFlicker.flicker(this, 3, 0.1, true, true, canGetDamage);
+				FlxFlicker.flicker(this, 3, 0.1, true, true);
 			}
 		}
 		else
@@ -103,8 +147,7 @@ class Player extends FlxSprite
 			FlxG.resetState();
 		}
 	}
-	
-	private function canGetDamage(f:FlxFlicker):Void 
+	private function canGetDamage():Void 
 	{
 		canbeHurted = true;
 	}
@@ -114,7 +157,7 @@ class Conditions
 {
 	public static function jump(owner:Player):Bool
 	{
-		return (FlxG.keys.justPressed.UP && owner.isTouching(FlxObject.FLOOR));
+		return (FlxG.keys.justPressed.UP && owner.isTouching(FlxObject.FLOOR) && owner.canbeHurted);
 	}
 	
 	public static function grounded(owner:Player):Bool
@@ -158,6 +201,7 @@ class Jump extends FlxFSMState<Player>
 	{
 		owner.velocity.y = -500;
 		owner.jumped = true;
+		owner.animation.play("jump");
 	}
 	override public function update(elapsed:Float, owner:Player, fsm:FlxFSM<Player>):Void 
 	{
@@ -170,6 +214,7 @@ class Fall extends FlxFSMState<Player>
 	override public function enter(owner:Player, fsm:FlxFSM<Player>):Void
 	{
 		owner.graceTime = 0;
+		owner.animation.play("jump");
 	}
 	override public function update(elapsed:Float, owner:Player, fsm:FlxFSM<Player>):Void 
 	{

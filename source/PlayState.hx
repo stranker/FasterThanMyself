@@ -18,7 +18,6 @@ class PlayState extends FlxState
 	private var timeBar:LevelBar;
 	override public function create():Void
 	{
-		Global.countdown = 60;
 		Global.timeWallPos = 0;
 		Global.timeWallSpeed = 50;
 		super.create();		
@@ -43,10 +42,6 @@ class PlayState extends FlxState
 	{
 		FlxG.collide(Global.player, tilemap);
 		super.update(elapsed);
-		if(Global.countdown>0)
-			Global.countdown -= elapsed;
-		else
-			Global.countdown = 0;
 	}
 	
 	private function placeEntities(entityName:String, entityData:Xml):Void // inicializar entidades
@@ -68,6 +63,9 @@ class PlayState extends FlxState
 			case "TimeVortex":
 				var t:TimeVortex = new TimeVortex(x, y);
 				add(t);
+			case "CollectableEnd":
+				var c:CollectableEnd = new CollectableEnd(x, y);
+				add(c);
 		}
 	}
 }

@@ -19,7 +19,7 @@ class TimeWall extends FlxSprite
 		super(X, Y, SimpleGraphic);
 		loadGraphic(AssetPaths.TimeWall__png, true, 20, 32);
 		animation.add("idle", [0, 1, 2], 6);
-		velocity.x = 50;
+		//velocity.x = 50;
 		pixelPerfectPosition = false;
 		animation.play("idle");
 	}
@@ -29,7 +29,7 @@ class TimeWall extends FlxSprite
 		super.update(elapsed);
 		FlxG.overlap(this, Global.player, playerCollide);
 		Global.timeWallPos = x;
-		velocity.x = Global.timeWallSpeed;
+		//velocity.x = Global.timeWallSpeed;
 		if (velocity.x < 50)
 			timeVelocity += elapsed;
 		if (timeVelocity>3) 
