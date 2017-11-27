@@ -26,6 +26,7 @@ class Player extends FlxSprite
 	public var graceTime:Float = 0;
 	private var direction:Int;
 	public var canbeHurted:Bool = true;
+	public var backInTime:Bool = false;
 	public var jumped:Bool = false;
 	private var timeBack:Float = 0;
 	private var listPos:Array<FlxPoint>;
@@ -65,7 +66,7 @@ class Player extends FlxSprite
 	{
 		fsm.update(elapsed);
 		wallDamage();
-		if (canbeHurted)
+		if (!backInTime)
 		{
 			super.update(elapsed);
 			clampPositions();
@@ -94,9 +95,11 @@ class Player extends FlxSprite
 		{
 			var pos:FlxPoint = listPos.pop();
 			setPosition(pos.x, pos.y);
+			allowCollisions = FlxObject.NONE;
 		}
 		else
 		{
+			setPosition(x, y-32);
 			canGetDamage();
 		}
 	}
@@ -139,7 +142,7 @@ class Player extends FlxSprite
 			{
 				health -= 1;
 				canbeHurted = false;
-				FlxFlicker.flicker(this, 3, 0.1, true, true);
+				FlxFlicker.flicker(this, 3, 0.1, true, true,endFlicker);
 			}
 		}
 		else
@@ -147,9 +150,23 @@ class Player extends FlxSprite
 			FlxG.resetState();
 		}
 	}
+	
+	private function endFlicker(f:FlxFlicker):Void
+	{
+		canGetDamage();
+	}
+	
 	private function canGetDamage():Void 
 	{
 		canbeHurted = true;
+		backInTime = false;
+		allowCollisions = FlxObject.ANY;
+	}
+	
+	public function timeDamage():Void
+	{
+		getDamage();
+		backInTime = true;
 	}
 }
 

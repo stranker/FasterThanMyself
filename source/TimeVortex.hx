@@ -47,7 +47,7 @@ class TimeVortex extends FlxSprite
 	
 	private function playerOverlap(v:TimeVortex,p:Player):Void
 	{
-		p.getDamage();
+		p.timeDamage();
 	}
 	
 }
