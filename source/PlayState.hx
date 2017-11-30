@@ -80,6 +80,9 @@ class PlayState extends FlxState
 			case "TimeFloor":
 				var tf:TimeFloor = new TimeFloor(x, y);
 				add(tf);
+			case "TutorialText":
+				var tt:TutorialText = new TutorialText(x, y, 160, "HOLA XD", 8, true, Std.parseInt(entityData.get("tipo")));
+				add(tt);
 		}
 	}
 	

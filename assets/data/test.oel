@@ -58,5 +58,6 @@
     <TimeFloor id="32" x="384" y="640" />
     <TimeFloor id="33" x="352" y="640" />
     <TimeFloor id="34" x="320" y="640" />
+    <TutorialText id="35" x="64" y="544" tipo="1" />
   </Entities>
 </level>
