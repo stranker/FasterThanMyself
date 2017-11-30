@@ -26,8 +26,8 @@ class CollectableEnd extends FlxSprite
 	private function playerOverlap(c:CollectableEnd,p:Player):Void 
 	{
 		c.destroy();
-		Global.currLevel ++;
-		FlxG.switchState(new PlayState());
+		//Global.currLevel ++;
+		//FlxG.switchState(new PlayState());
 	}
 	
 }

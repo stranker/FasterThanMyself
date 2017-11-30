@@ -5,6 +5,7 @@ import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxState;
 import flixel.addons.editors.ogmo.FlxOgmoLoader;
+import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.tile.FlxTilemap;
 
 class PlayState extends FlxState
@@ -26,6 +27,7 @@ class PlayState extends FlxState
 	private function init():Void
 	{
 		tilemap = new FlxTilemap();
+		Global.boulderGroup = new FlxTypedGroup();
 		loader = new FlxOgmoLoader(levelList[Global.currLevel]);
 		tilemap = loader.loadTilemap(AssetPaths.tiles__png, 32, 32, "Tiles");
 		tilemap.setTileProperties(0, FlxObject.NONE);
@@ -37,6 +39,7 @@ class PlayState extends FlxState
 		add(timeBar);
 		add(timeBar.playerHead);
 		add(timeBar.timeWall);
+		add(Global.boulderGroup);
 		FlxG.camera.follow(Global.player, FlxCameraFollowStyle.PLATFORMER, 3);
 	}
 	
@@ -78,7 +81,7 @@ class PlayState extends FlxState
 				add(tp);
 			case "Boulder":
 				var b:Boulder = new Boulder(x, y);
-				add(b);
+				Global.boulderGroup.add(b);
 		}
 	}
 	

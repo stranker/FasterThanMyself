@@ -80,7 +80,6 @@ class Player extends FlxSprite
 				timeBack = 0;
 			}
 		}
-		//trace(Type.getClassName(fsm.stateClass)); ESTADO
 	}
 	
 	function clampPositions() 

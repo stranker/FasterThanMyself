@@ -26,9 +26,9 @@ class TimePulser extends FlxSprite
 		shotTime += elapsed;
 		if (shotTime > 4)
 		{
-			var p:Pulse = new Pulse(x + width / 2, y + height / 2, direction);
-			FlxG.state.add(p);
-			shotTime = 0;
+			//var p:Pulse = new Pulse(x + width / 2, y + height / 2, direction);
+			//FlxG.state.add(p);
+			//shotTime = 0;
 		}
 		FlxG.collide(this, Global.player);
 	}
