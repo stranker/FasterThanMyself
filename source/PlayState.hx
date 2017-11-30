@@ -26,7 +26,7 @@ class PlayState extends FlxState
 	private function init():Void
 	{
 		tilemap = new FlxTilemap();
-		loader = new FlxOgmoLoader(levelList.shift());
+		loader = new FlxOgmoLoader(levelList[Global.currLevel]);
 		tilemap = loader.loadTilemap(AssetPaths.tiles__png, 32, 32, "Tiles");
 		tilemap.setTileProperties(0, FlxObject.NONE);
 		tilemap.setTileProperties(1, FlxObject.ANY);
@@ -42,7 +42,7 @@ class PlayState extends FlxState
 	
 	private function addLevels():Void 
 	{
-		levelList = [AssetPaths.test__oel];
+		levelList = [AssetPaths.test__oel,AssetPaths.Level1__oel];
 	}
 	
 	override public function update(elapsed:Float):Void 
@@ -73,6 +73,12 @@ class PlayState extends FlxState
 			case "CollectableEnd":
 				var c:CollectableEnd = new CollectableEnd(x, y);
 				add(c);
+			case "TimePulser":
+				var tp:TimePulser = new TimePulser(x, y, Std.parseInt(entityData.get("direction")));
+				add(tp);
+			case "Boulder":
+				var b:Boulder = new Boulder(x, y);
+				add(b);
 		}
 	}
 	

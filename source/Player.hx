@@ -168,6 +168,11 @@ class Player extends FlxSprite
 		getDamage();
 		backInTime = true;
 	}
+	
+	public function getDirection():Int
+	{
+		return direction;
+	}
 }
 
 class Conditions
