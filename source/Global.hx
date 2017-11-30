@@ -13,5 +13,4 @@ class Global
 	static public var timeWallSpeed:Float;
 	static public var tilemap:FlxTilemap;
 	static public var currLevel:Int = 0;
-	static public var boulderGroup:FlxTypedGroup<Boulder>;
 }

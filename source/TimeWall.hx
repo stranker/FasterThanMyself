@@ -30,12 +30,13 @@ class TimeWall extends FlxSprite
 		FlxG.overlap(this, Global.player, playerCollide);
 		Global.timeWallPos = x;
 		//velocity.x = Global.timeWallSpeed;
-		if (velocity.x < 50)
+		if (Global.timeWallSpeed < 50)
 			timeVelocity += elapsed;
 		if (timeVelocity>3) 
 		{
 			Global.timeWallSpeed = 50;
 			timeVelocity = 0;
+			Global.player.setTrail();
 		}
 	}
 	

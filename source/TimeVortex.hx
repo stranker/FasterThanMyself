@@ -27,7 +27,6 @@ class TimeVortex extends FlxSprite
 	
 	override public function update(elapsed:Float):Void 
 	{
-		
 		super.update(elapsed);
 		timerActivo += elapsed;
 		if (timerActivo > 2)

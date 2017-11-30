@@ -65,7 +65,6 @@ class Player extends FlxSprite
 	override public function update(elapsed:Float):Void 
 	{
 		fsm.update(elapsed);
-		wallDamage();
 		if (!backInTime)
 		{
 			super.update(elapsed);
@@ -81,8 +80,7 @@ class Player extends FlxSprite
 			}
 		}
 	}
-	
-	function clampPositions() 
+	private function clampPositions():Void
 	{
 		if (listPos.length > 100)
 			listPos.shift();
@@ -103,9 +101,9 @@ class Player extends FlxSprite
 		}
 	}
 	
-	private function wallDamage():Void 
+	public function setTrail():Void 
 	{
-		if (Global.timeWallSpeed < 50)
+		if (trail.alive == false)
 			trail.revive();
 		else
 			trail.kill();

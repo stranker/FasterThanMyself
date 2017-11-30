@@ -27,7 +27,6 @@ class PlayState extends FlxState
 	private function init():Void
 	{
 		tilemap = new FlxTilemap();
-		Global.boulderGroup = new FlxTypedGroup();
 		loader = new FlxOgmoLoader(levelList[Global.currLevel]);
 		tilemap = loader.loadTilemap(AssetPaths.tiles__png, 32, 32, "Tiles");
 		tilemap.setTileProperties(0, FlxObject.NONE);
@@ -39,7 +38,6 @@ class PlayState extends FlxState
 		add(timeBar);
 		add(timeBar.playerHead);
 		add(timeBar.timeWall);
-		add(Global.boulderGroup);
 		FlxG.camera.follow(Global.player, FlxCameraFollowStyle.PLATFORMER, 3);
 	}
 	
@@ -79,9 +77,9 @@ class PlayState extends FlxState
 			case "TimePulser":
 				var tp:TimePulser = new TimePulser(x, y, Std.parseInt(entityData.get("direction")));
 				add(tp);
-			case "Boulder":
-				var b:Boulder = new Boulder(x, y);
-				Global.boulderGroup.add(b);
+			case "TimeFloor":
+				var tf:TimeFloor = new TimeFloor(x, y);
+				add(tf);
 		}
 	}
 	

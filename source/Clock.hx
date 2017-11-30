@@ -1,8 +1,8 @@
 package;
 
 import flixel.FlxG;
+import flixel.FlxObject;
 import flixel.FlxSprite;
-import flixel.system.FlxAssets.FlxGraphicAsset;
 
 /**
  * ...
@@ -26,6 +26,7 @@ class Clock extends FlxSprite
 	private function pickClock(p:Player,c:Clock):Void 
 	{
 		Global.timeWallSpeed = 30;
+		Global.player.setTrail();
 		destroy();
 	}
 	
