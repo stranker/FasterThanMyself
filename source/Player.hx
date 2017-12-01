@@ -30,6 +30,7 @@ class Player extends FlxSprite
 	public var jumped:Bool = false;
 	private var timeBack:Float = 0;
 	private var listPos:Array<FlxPoint>;
+	private var timeTrail:Float = 0;
 	
 	public function new(?X:Float=0, ?Y:Float=0) 
 	{
@@ -79,6 +80,13 @@ class Player extends FlxSprite
 				timeBack = 0;
 			}
 		}
+		if (trail.alive)
+			timeTrail += elapsed;
+		if (timeTrail > 3)
+		{
+			setTrail();
+			timeTrail = 0;
+		}
 	}
 	private function clampPositions():Void
 	{
@@ -113,7 +121,10 @@ class Player extends FlxSprite
 	{
 		if ((FlxG.keys.pressed.LEFT || FlxG.keys.pressed.RIGHT) && canbeHurted)
 		{
-			velocity.x = FlxG.keys.pressed.LEFT ? -300 :300;
+			if(velocity.y!=0)
+				velocity.x = FlxG.keys.pressed.LEFT ? -200 :200;
+			else
+				velocity.x = FlxG.keys.pressed.LEFT ? -250 :250;
 			direction = (velocity.x >= 0) ? 1 : -1;
 			animation.play("run");
 			listPos.push(getPosition());
@@ -144,6 +155,7 @@ class Player extends FlxSprite
 		}
 		else
 		{
+			Global.tutorialCompletado = true;
 			FlxG.resetState();
 		}
 	}
@@ -218,7 +230,7 @@ class Jump extends FlxFSMState<Player>
 {
 	override public function enter(owner:Player, fsm:FlxFSM<Player>):Void
 	{
-		owner.velocity.y = -500;
+		owner.velocity.y = -525;
 		owner.jumped = true;
 		owner.animation.play("jump");
 	}
