@@ -14,6 +14,8 @@ class TutorialText extends FlxSprite
 	private var textoLoco:flixel.addons.text.FlxTypeText;
 	private var eraseTime:Float = 0;
 	private var tipo:Int;
+	private var gameOver:Bool = false;
+	private var gameOverTime:Float = 0;
 	public function new(?X:Float=0, ?Y:Float=0,?tip:Int=0) 
 	{
 		super(X, Y);
@@ -78,6 +80,10 @@ class TutorialText extends FlxSprite
 			textoLoco.erase(0.02, false);
 			eraseTime = 0;
 		}
+		if (gameOver)
+			gameOverTime += elapsed;
+		if (gameOverTime > 3)
+			FlxG.switchState(new Splash());
 	}
 	
 	private function playerCollide(p:Player,te:TutorialText):Void
@@ -88,6 +94,8 @@ class TutorialText extends FlxSprite
 			textoLoco.start(0.01, false, false);
 			if (tipo == 9)
 				Global.timeWallSpeed = 150;
+			if (tipo == 10)
+				gameOver = true;
 		}
 	}
 	

@@ -1,6 +1,7 @@
 package;
 
 import flixel.FlxG;
+import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 
@@ -15,9 +16,18 @@ class TimePulser extends FlxSprite
 	public function new(?X:Float=0, ?Y:Float=0, ?dir:Int=1) 
 	{
 		super(X, Y);
-		makeGraphic(32, 32, 0xFFFFFF00);
+		loadGraphic(AssetPaths.TimePulse__png, true, 32, 32);
+		animation.add("idle", [0, 1], 6, true);
+		animation.add("shot", [0, 1, 2, 3, 4], 6, false);
+		animation.play("idle");
 		direction = dir;
 		immovable = true;
+		setFacingFlip(FlxObject.LEFT, true, false);
+		setFacingFlip(FlxObject.RIGHT, false, false);
+		if (direction == 1)
+			facing = FlxObject.RIGHT;
+		else
+			facing = FlxObject.LEFT;
 	}
 	
 	override public function update(elapsed:Float):Void 
@@ -29,7 +39,10 @@ class TimePulser extends FlxSprite
 			var p:Pulse = new Pulse(x + width / 2, y + height / 2, direction);
 			FlxG.state.add(p);
 			shotTime = 0;
+			animation.play("shot");
 		}
+		else
+			animation.play("idle");
 		FlxG.collide(this, Global.player);
 	}
 	

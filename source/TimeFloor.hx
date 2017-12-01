@@ -14,7 +14,9 @@ class TimeFloor extends FlxSprite
 	public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) 
 	{
 		super(X, Y, SimpleGraphic);
-		makeGraphic(32, 32, 0xFFFF8000);
+		loadGraphic(AssetPaths.TimeFloor__png, true, 32, 32);
+		animation.add("idle", [0, 1, 2, 3], 6 , true);
+		animation.play("idle");
 	}
 	
 	override public function update(elapsed:Float):Void 

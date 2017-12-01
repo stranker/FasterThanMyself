@@ -60,7 +60,7 @@ class Player extends FlxSprite
 		trail = new FlxTrail(this, null, 5, 2,0.4,0.1);
 		trail.kill();
 		FlxG.state.add(trail);
-		health = 3;
+		health = 2;
 	}
 	
 	override public function update(elapsed:Float):Void 

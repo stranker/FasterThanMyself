@@ -21,6 +21,9 @@ class Splash extends FlxState
 		faster = new FlxText(250, FlxG.height / 2 - 200, 500 , "Faster", 50, true);
 		than = new FlxText(350, FlxG.height / 2 - 100, 500 , "than", 50, true);
 		myself = new FlxText(450, FlxG.height / 2, 500 , "myself", 50, true);
+		faster.color = 0xffff0097;
+		than.color = 0xFF808080;
+		myself.color = 0xFF00E5E5;
 		faster.alpha = 0;
 		than.alpha = 0;
 		myself.alpha = 0;

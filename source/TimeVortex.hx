@@ -16,9 +16,11 @@ class TimeVortex extends FlxSprite
 	public function new(?X:Float=0, ?Y:Float=0) 
 	{
 		super(X, Y);
-		makeGraphic(32, 32, 0xFF4d4d4d);
+		loadGraphic(AssetPaths.TimeVortex__png, true, 32, 32);
+		animation.add("d", [0, 1, 2, 3], 6, false);
+		animation.add("nd", [4, 5, 6, 7], 6, true);
 		particulas = new FlxEmitter(x + width/2, y + height / 2,50);
-		particulas.makeParticles(2, 2, 0xFFFF00FF,50);
+		particulas.loadParticles(AssetPaths.Particula__png,50,16,false,false);
 		particulas.velocity.set(50, -50, 50, 50);
 		particulas.launchAngle.set( -180, 180);
 		FlxG.state.add(particulas);
@@ -34,13 +36,13 @@ class TimeVortex extends FlxSprite
 		if (timerActivo > 3)
 		{
 			FlxG.overlap(this, Global.player, playerOverlap);
-			color = 0xFF00FF00;
+			animation.play("d");
 		}
 		if (timerActivo > 6)
 		{
 			particulas.emitting = true;
 			timerActivo = 0;
-			color = 0xFF4d4d4d;
+			animation.play("nd");
 		}
 	}
 	
