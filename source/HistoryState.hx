@@ -22,7 +22,7 @@ class HistoryState extends FlxState
 	}
 	private function eraseText():Void
 	{
-		FlxTween.num(0, 3, 3, null, borrarTexto);
+		FlxTween.num(0, 10, 3, null, borrarTexto);
 
 	}
 	
@@ -30,6 +30,7 @@ class HistoryState extends FlxState
 	{
 		texto.erase(0.05,false,null,gameState);
 	}
+	
 	private function gameState():Void 
 	{
 		FlxG.switchState(new PlayState());
