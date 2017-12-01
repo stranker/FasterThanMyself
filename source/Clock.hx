@@ -27,7 +27,7 @@ class Clock extends FlxSprite
 	{
 		Global.timeWallSpeed = 30;
 		Global.player.setTrail();
-		destroy();
+		c.destroy();
 	}
 	
 }

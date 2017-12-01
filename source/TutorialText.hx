@@ -13,12 +13,14 @@ class TutorialText extends FlxSprite
 	private var activado:Bool = false;
 	private var textoLoco:flixel.addons.text.FlxTypeText;
 	private var eraseTime:Float = 0;
+	private var tipo:Int;
 	public function new(?X:Float=0, ?Y:Float=0,?tip:Int=0) 
 	{
 		super(X, Y);
 		makeGraphic(128, 128, 0x00FF8000);
 		textoLoco = new FlxTypeText(X, Y, 200, "", 12, true);
 		FlxG.state.add(textoLoco);
+		tipo = tip;
 		setTipo(tip);
 	}
 	
@@ -51,7 +53,15 @@ class TutorialText extends FlxSprite
 			case 5:
 				textoLoco.resetText("Todo parece tranquilo...");
 			case 6:
-				textoLoco.resetText("¡Un vortex temporal! Ten cuidado que son muy inestables");
+				textoLoco.resetText("¡Un vortex temporal! Ten cuidado, son muy inestables");
+			case 7:
+				textoLoco.resetText("¿Ahora tambien tengo que esquivar balas?");
+			case 8:
+				textoLoco.resetText("Siento que algo muy malo va a pasar...");
+			case 9:
+				textoLoco.resetText("Ok. Para algo servia la barra de abajo con mi cara");
+			case 10:
+				textoLoco.resetText("Hasta aca llegamos Cid. Fin del camino");
 			default:
 				
 		}
@@ -76,6 +86,8 @@ class TutorialText extends FlxSprite
 		{
 			activado = true;
 			textoLoco.start(0.01, false, false);
+			if (tipo == 9)
+				Global.timeWallSpeed = 150;
 		}
 	}
 	

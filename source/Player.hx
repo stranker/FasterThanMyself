@@ -65,6 +65,7 @@ class Player extends FlxSprite
 	
 	override public function update(elapsed:Float):Void 
 	{
+		FlxG.collide(this, Global.tilemap);
 		fsm.update(elapsed);
 		if (!backInTime)
 		{
@@ -181,6 +182,10 @@ class Player extends FlxSprite
 	public function getDirection():Int
 	{
 		return direction;
+	}
+	public function speedUp():Bool
+	{
+		return trail.alive;
 	}
 }
 

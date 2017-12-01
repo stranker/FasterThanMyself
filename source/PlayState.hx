@@ -26,7 +26,7 @@ class PlayState extends FlxState
 	private function init():Void
 	{
 		Global.timeWallPos = 0;
-		Global.timeWallSpeed = 50;
+		Global.timeWallSpeed = 0;
 		loader = new FlxOgmoLoader(levelList[Global.currLevel]);
 		tilemap = new FlxTilemap();
 		tilemap = loader.loadTilemap(AssetPaths.tiles__png, 32, 32, "Tiles");
@@ -39,20 +39,20 @@ class PlayState extends FlxState
 		add(timeBar);
 		add(timeBar.playerHead);
 		add(timeBar.timeWall);
-		FlxG.camera.follow(Global.player, FlxCameraFollowStyle.PLATFORMER, 3);
+		FlxG.camera.follow(Global.player, FlxCameraFollowStyle.NO_DEAD_ZONE, 3);
 		FlxG.camera.zoom = 1.5;
 		FlxG.camera.followLerp = 0.2;
 		FlxG.camera.flash(FlxColor.WHITE, 2);
+		FlxG.worldBounds.set(0, 0, tilemap.width, tilemap.height);
 	}
 	
 	private function addLevels():Void 
 	{
-		levelList = [AssetPaths.Level1__oel,AssetPaths.Level2__oel];
+		levelList = [AssetPaths.Level1__oel,AssetPaths.Level2__oel,AssetPaths.Level3__oel,AssetPaths.Level4__oel,AssetPaths.EndLevel__oel];
 	}
 	
 	override public function update(elapsed:Float):Void 
 	{
-		FlxG.collide(Global.player, tilemap);
 		super.update(elapsed);
 	}
 	
