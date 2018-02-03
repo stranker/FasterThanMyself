@@ -3,6 +3,8 @@ package;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.system.FlxAssets.FlxGraphicAsset;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
 
 /**
  * ...
@@ -10,11 +12,25 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
  */
 class CollectableEnd extends FlxSprite 
 {
-
+	var tipo:Int = 1;
 	public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) 
 	{
 		super(X, Y, SimpleGraphic);
-		makeGraphic(16, 16, 0xFFFFFF00);
+		set_image();
+		FlxTween.tween(this, {y:y + 16}, 2, {type:FlxTween.PINGPONG, ease:FlxEase.linear});
+	}
+	
+	private function set_image():Void 
+	{
+		switch (tipo) 
+		{
+			case 0:
+				loadGraphic(AssetPaths.Rubick__png, false, 16, 16);
+			case 1:
+				loadGraphic(AssetPaths.Cassette__png, false, 16, 16);
+			default:
+				makeGraphic(16, 16, 0xFFFF00FF);
+		}
 	}
 	
 	override public function update(elapsed:Float):Void 

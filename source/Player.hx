@@ -61,6 +61,10 @@ class Player extends FlxSprite
 		trail.kill();
 		FlxG.state.add(trail);
 		health = 2;
+		scale.x = 0.60;
+		scale.y = 0.72;
+		updateHitbox();
+		scale.x = 0.72;
 	}
 	
 	override public function update(elapsed:Float):Void 

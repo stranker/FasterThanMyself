@@ -19,7 +19,7 @@ class TutorialText extends FlxSprite
 	public function new(?X:Float=0, ?Y:Float=0,?tip:Int=0) 
 	{
 		super(X, Y);
-		makeGraphic(128, 128, 0x00FF8000);
+		makeGraphic(256, 128, 0x00FF8000);
 		textoLoco = new FlxTypeText(X, Y, 200, "", 12, true);
 		FlxG.state.add(textoLoco);
 		tipo = tip;

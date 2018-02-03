@@ -18,7 +18,7 @@ class HistoryState extends FlxState
 	override public function create():Void 
 	{
 		super.create();
-		texto = new FlxTypeText(10, 10, FlxG.camera.width - 10, " No sé como sucedió. Lo último que recuerdo es haber estado en mi taller, manipulando un inodoro junto con antimateria. Lo siguiente fue blanco. Sentia un cosquilleo en mi cuerpo que no sabia describir y mis piernas temblaban. Pero creo que algo puedo contarte...", 20, true);
+		texto = new FlxTypeText(10, 10, FlxG.camera.width - 10, " No sé como sucedió. Lo último que recuerdo es haber estado en mi taller, arreglando mi televisor. Lo siguiente fue blanco. Sentia un cosquilleo en mi cuerpo que no sabia describir y mis piernas temblaban. Pero creo que algo puedo contarte...", 20, true);
 		add(texto);
 		texto.start(0.1, false,false,null,eraseText);
 	}
